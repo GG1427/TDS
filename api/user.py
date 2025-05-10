@@ -15,7 +15,7 @@ class handler(BaseHTTPRequestHandler):
                 else:
                     params[key] = [value]
 
-            self.wfile.write(str(params).encode('utf-8'))
+            # self.wfile.write(str(params).encode('utf-8'))
             
         self.send_response(200)
         self.send_header('Content-type','text/plain')
