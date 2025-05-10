@@ -21,5 +21,5 @@ class handler(BaseHTTPRequestHandler):
                 else:
                     params[key] = [value]
 
-         self.wfile.write(str(params).encode('utf-8'))
+            self.wfile.write(str(params).encode('utf-8'))
         return
