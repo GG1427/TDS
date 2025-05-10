@@ -1,4 +1,5 @@
-from fastapi import FastAPI, Request, json
+from fastapi import FastAPI, Request
+import json
 from urllib.parse import urlparse
 
 app = FastAPI()
