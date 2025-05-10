@@ -41,7 +41,7 @@ async def read_api(request: Request):
     
     # Loop through the names and find the corresponding marks in the data
     for name in names:
-        # Search for the name in the data
+        # Search for the name in the data (data is a list of dictionaries)
         found = False
         for entry in data:
             if entry['name'] == name:
