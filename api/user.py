@@ -1,9 +1,10 @@
 from http.server import BaseHTTPRequestHandler
  
 class handler(BaseHTTPRequestHandler):
- 
     def do_GET(self):
+	    
 		response_body = "Guess who's back"
+		path = self.path
 		
         if path.startswith("/api?"):
             query_string = path.split("?", 1)[1]
