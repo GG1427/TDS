@@ -19,7 +19,7 @@ async def read_api(request: Request):
 
     # Open the JSON file and load the data
     try:
-        with open("data.json", "r") as file:
+        with open("q-vercel-python.json", "r") as file:
             data = json.load(file)
     except FileNotFoundError:
         raise HTTPException(status_code=500, detail="data.json file not found.")
