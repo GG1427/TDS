@@ -37,7 +37,7 @@ async def save_payload(data: Payload):
    }
 
    try:
-         async with httpx.AsyncClient() as client:
+         async with httpx.AsyncClient(timeout=15.0) as client:
             response = await client.post("https://api.jina.ai/v1/embeddings", headers=headers, json=output)
          
          if response.status_code != 200:
