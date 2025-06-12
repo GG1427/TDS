@@ -44,6 +44,6 @@ async def save_payload(data: Payload):
             raise Exception("Error from Jina API: " + response.text)
          
    except Exception as e:
-         return {"error": "Unable to reach Jina API to process your request.", "details": str(e)}
+         return {"error": "Unable to reach Jina API to process your request.", "details": str(e), "reponse": f"{response.txt}"}
 
    return {"response": f"{response.json()}"}
