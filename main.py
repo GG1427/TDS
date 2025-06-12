@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional
-import requests
+import httpx
 
 app = FastAPI()
 
@@ -37,7 +37,8 @@ async def save_payload(data: Payload):
    }
 
    try:
-         response = requests.post("https://api.jina.ai/v1/embeddings", headers=headers, json=output)
+         async with httpx.AsyncClient() as client:
+            response = await client.post("https://api.jina.ai/v1/embeddings", headers=headers, json=output)
          
          if response.status_code != 200:
             raise Exception("Error from Jina API: " + response.text)
