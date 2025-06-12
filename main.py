@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional
+import requests
 
 app = FastAPI()
 
@@ -19,6 +20,29 @@ class Payload(BaseModel):
 
 @app.post("/api")
 async def save_payload(data: Payload):
-    entry = {"question": data.question, "image": data.image or []}
-    print("Received:", entry)  # For now, just log the data
-    return {"status": "received"}
+
+   entry = {"text": data.question, "image": data.image or []}
+
+   output = {
+      "model": "jina-clip-v2",
+      "input": [{"text": entry["text"]}] + [{"image": url} for url in entry["image"]]
+   }
+
+
+   JINA_API_KEY = "jina_450417f62c9248bbaef5b564ced12ccdeUV-ddpFzWUqcB-YcZnSYU7GQqTd"
+
+   headers = {
+         "Authorization": f"Bearer {JINA_API_KEY}",
+         "Content-Type": "application/json"
+   }
+
+   try:
+         response = requests.post("https://api.jina.ai/v1/embeddings", headers=headers, json=output)
+         
+         if response.status_code != 200:
+            raise Exception("Error from Jina API: " + response.text)
+         
+   except Exception as e:
+         return {"error": "Unable to reach Jina API to process your request.", "details": str(e)}
+
+   return {"response": f"{response.json()}"}
