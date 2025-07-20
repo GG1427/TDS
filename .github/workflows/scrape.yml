@@ -6,22 +6,21 @@ on:
 
 jobs:
   scrape:
-    name: scrape by 24f1001824@ds.study.iitm.ac.in
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout Repo
-      uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: 3.10
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'  # ✅ Use 3.10, 3.11, or 3.12
 
-    - name: Install Dependencies
-      run: |
-        pip install playwright
-        playwright install
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install playwright
+          playwright install
 
-    - name: Run Scraper Script
-      run: python scrape_sum.py
+      - name: Run scraper (24f1001824@ds.study.iitm.ac.in)
+        run: python scrape_sum.py
+
