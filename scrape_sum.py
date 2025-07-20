@@ -1,22 +1,29 @@
-import asyncio
-from playwright.async_api import async_playwright
+from playwright.sync_api import sync_playwright
 
-seeds = range(23, 33)
+def get_total():
+    total_sum = 0
+    base_url = "https://exam.sanand.workers.dev/seed/{}"
+    seeds = range(23, 33)
 
-async def run():
-    total = 0
-    async with async_playwright() as p:
-        browser = await p.chromium.launch()
-        page = await browser.new_page()
+    with sync_playwright() as p:
+        browser = p.chromium.launch()
+        page = browser.new_page()
+
         for seed in seeds:
-            url = f"https://exam.sanand.workers.dev/seed/{seed}"
-            await page.goto(url)
-            tables = await page.query_selector_all("table")
-            for table in tables:
-                text = await table.inner_text()
-                numbers = [int(s) for s in text.split() if s.isdigit()]
-                total += sum(numbers)
-        print(f"sum: {total}")  # <-- This format is required
-        await browser.close()
+            url = base_url.format(seed)
+            page.goto(url, wait_until="networkidle")
 
-asyncio.run(run())
+            # Select all <td> elements
+            td_elements = page.query_selector_all("table td")
+            for td in td_elements:
+                text = td.inner_text().strip()
+                if text.isdigit():
+                    total_sum += int(text)
+
+        browser.close()
+
+    return total_sum
+
+if __name__ == "__main__":
+    total = get_total()
+    print(f"sum: {total}")
