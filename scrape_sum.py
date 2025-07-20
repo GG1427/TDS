@@ -16,7 +16,7 @@ async def run():
                 text = await table.inner_text()
                 numbers = [int(s) for s in text.split() if s.isdigit()]
                 total += sum(numbers)
-        print(f"Total sum across all seeds: {total}")
+        print(f"sum: {total}")  # <-- This format is required
         await browser.close()
 
 asyncio.run(run())
