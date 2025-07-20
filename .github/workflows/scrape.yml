@@ -1,0 +1,27 @@
+name: Scrape & Sum Tables
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  scrape:
+    name: scrape by 24f1001824@ds.study.iitm.ac.in
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.10
+
+    - name: Install Dependencies
+      run: |
+        pip install playwright
+        playwright install
+
+    - name: Run Scraper Script
+      run: python scrape_sum.py
